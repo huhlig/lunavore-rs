@@ -17,35 +17,24 @@
 //!
 //!
 //!
-extern crate amethyst;
-extern crate rand;
-extern crate serde;
 
-mod component;
-mod generator;
-mod network;
-mod states;
-mod system;
+use serde::{Deserialize, Serialize};
 
-use amethyst::ApplicationBuilder;
-use component::{Position, Radiance, Velocity};
-use states::SetupState;
-use std::error::Error;
+type Weight = f32;
 
-fn run() -> Result<(), Box<Error>> {
-    let mut builder =
-        ApplicationBuilder::new("./", SetupState)?;
-    builder.world.register::<Position>();
-    builder.world.register::<Radiance>();
-    builder.world.register::<Velocity>();
-    let mut application = builder.build()?;
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Neuron {
+    activator: A
+    weights: Vec<Weight>,
 
-    Ok(application.run())
 }
 
-fn main() {
-    if let Err(e) = run() {
-        println!("Error: {}", e);
-        ::std::process::exit(1);
-    }
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Layer {
+    neurons: Vec<Neuron>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Network {
+    layers: Vec<Layer>,
 }

@@ -12,24 +12,17 @@
 //  more details.
 //
 //  You should have received a copy of the GNU General Public License along
-//  with Lunavore.  If not, see <http://www.gnu.org/licenses/>.
+//  with Lunavore. If not, see <http://www.gnu.org/licenses/>.
 //
-//!
-//!
-//!
 
-use amethyst::ecs::World;
-use rand::{self, thread_rng};
+use std::f64::consts::E;
 
-///
-///
-pub struct CreatureBuilder;
+pub type Activation = fn(f64) -> f64;
 
-impl CreatureBuilder {
-    pub fn new() -> CreatureBuilder {
-        CreatureBuilder
-    }
-    pub fn build(_world: &mut World) {
-        let rng = rand::thread_rng();
-    }
-}
+pub fn identity(x: f64) -> f64 { x }
+
+pub fn binary_step(x: f64) -> f64 { if x < 0.0 { 0.0 } else { 1.0 } }
+
+pub fn logistic(x: f64) -> f64 { 1.0 / (1.0 + E.powf(-x)) }
+
+pub fn tanh(x: f64) -> f64 { (E.powf(x) - E.powf(-x)) / (E.powf(x) + E.powf(-x)) }

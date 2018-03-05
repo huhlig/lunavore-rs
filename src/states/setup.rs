@@ -21,6 +21,7 @@
 use amethyst::{State, Trans};
 use amethyst::ecs::World;
 use amethyst::renderer::Event;
+use super::ActiveState;
 
 pub struct SetupState;
 
@@ -38,7 +39,12 @@ impl State for SetupState {
 
 
     fn handle_event(&mut self, _eng: &mut World, _event: Event) -> Trans {
-        Trans::None
+        if false {
+            Trans::Push(Box::new(ActiveState))
+        } else {
+            Trans::None
+        }
+
     }
 
     fn fixed_update(&mut self, _eng: &mut World) -> Trans {
