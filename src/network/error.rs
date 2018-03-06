@@ -14,27 +14,29 @@
 //  You should have received a copy of the GNU General Public License along
 //  with Lunavore.  If not, see <http://www.gnu.org/licenses/>.
 //
-//!
-//!
-//!
 
-mod activation;
-mod error;
-mod network;
+use std::error::Error;
+use std::fmt::{Display, Formatter, Result};
 
-pub use self::activation::Activation;
-pub use self::network::{Weight, Neuron, Layer, NeuralNetwork};
+#[derive(Debug)]
+pub enum CreationError {
+    InsufficientNodes,
+    InsufficientLayers,
+}
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use serde_json;
-
-    #[test]
-    fn test_creation() {
-        let brain = NeuralNetwork::new(&[1, 1], Activation::Identity)
-            .expect("Unable to generate NeuralNetwork");
-
-        println!("NeuralNetwork: {}", serde_json::to_string(&brain).expect("Unable to Serialize"));
+impl Display for CreationError {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "{}", self.description())
     }
+}
+
+impl Error for CreationError {
+    fn description(&self) -> &str {
+        match self {
+            &CreationError::InsufficientLayers => "Network MUST have a minimum of 2 layers.",
+            &CreationError::InsufficientNodes => "Each layer MUST have a minimum of one node.",
+        }
+    }
+
+    fn cause(&self) -> Option<&Error> { Option::None }
 }

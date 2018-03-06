@@ -17,12 +17,21 @@
 
 use std::f64::consts::E;
 
-pub type Activation = fn(f64) -> f64;
+#[derive(Debug, Serialize, Deserialize)]
+pub enum Activation {
+    Identity,
+    BinaryStep,
+    Logistic,
+    TanH,
+}
 
-pub fn identity(x: f64) -> f64 { x }
-
-pub fn binary_step(x: f64) -> f64 { if x < 0.0 { 0.0 } else { 1.0 } }
-
-pub fn logistic(x: f64) -> f64 { 1.0 / (1.0 + E.powf(-x)) }
-
-pub fn tanh(x: f64) -> f64 { (E.powf(x) - E.powf(-x)) / (E.powf(x) + E.powf(-x)) }
+impl Activation {
+    pub fn evaluate(&self, x: f64) -> f64 {
+        match self {
+            &Activation::Identity => { x }
+            &Activation::BinaryStep => { if x < 0.0 { 0.0 } else { 1.0 } }
+            &Activation::Logistic => { 1.0 / (1.0 + E.powf(-x)) }
+            &Activation::TanH => { (E.powf(x) - E.powf(-x)) / (E.powf(x) + E.powf(-x)) }
+        }
+    }
+}

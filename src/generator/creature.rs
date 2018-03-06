@@ -19,7 +19,7 @@
 //!
 
 use amethyst::ecs::World;
-use rand::{self, thread_rng};
+use rand;
 
 ///
 ///
@@ -30,6 +30,6 @@ impl CreatureBuilder {
         CreatureBuilder
     }
     pub fn build(_world: &mut World) {
-        let rng = rand::thread_rng();
+        let _rng = rand::thread_rng();
     }
 }
