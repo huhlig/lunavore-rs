@@ -32,9 +32,11 @@ mod tests {
 
     #[test]
     fn test_creation() {
-        let brain = NeuralNetwork::new(&[1, 1], Activation::Identity)
+        let brain = NeuralNetwork::new(&[4, 4], Activation::Identity)
             .expect("Unable to generate NeuralNetwork");
 
-        println!("NeuralNetwork: {}", serde_json::to_string(&brain).expect("Unable to Serialize"));
+        let str = serde_json::to_string(&brain).expect("Unable to Serialize");
+
+        println!("NeuralNetwork: {}", str);
     }
 }
